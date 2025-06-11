@@ -1,0 +1,281 @@
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+main {
+    width: 90%;
+    max-width: 800px;
+}
+
+#game-mode-selection {
+    text-align: center;
+}
+
+#game-mode-selection button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border: 2px solid #333;
+    background-color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#game-mode-selection button:hover {
+    background-color: #333;
+    color: white;
+}
+
+#game-board {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.player-section {
+    width: 30%;
+    text-align: center;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.deck {
+    width: 100px;
+    height: 150px;
+    border: 3px solid #333;
+    border-radius: 10px;
+    margin: 1rem auto;
+    background-color: #a52a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+}
+
+.card-count {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.center-area {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.played-cards {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.card-slot {
+    width: 100px;
+    height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    margin: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+    position: relative;
+}
+
+.card-slot.war-pile {
+    background-color: #fffacd;
+    border-style: solid;
+}
+
+.card-slot .card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-out;
+    transform: translateX(calc(var(--i, 0) * 15px));
+}
+
+#player2-card-slot .card {
+    left: auto;
+    right: 0;
+    transform: translateX(calc(var(--i, 0) * -15px));
+}
+
+.card-slot:hover .card {
+    transform: translateX(calc(var(--i, 0) * 35px));
+}
+
+#player2-card-slot:hover .card {
+    transform: translateX(calc(var(--i, 0) * -35px));
+}
+
+.card-slot:hover .card:hover {
+    transform: translateY(-20px) translateX(calc(var(--i, 0) * 35px)) scale(1.05);
+    z-index: 100;
+}
+
+#player2-card-slot:hover .card:hover {
+    transform: translateY(-20px) translateX(calc(var(--i, 0) * -35px)) scale(1.05);
+    z-index: 100;
+}
+
+.card-slot.played {
+    transform: scale(1.1) translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.message-area {
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 2em;
+    text-align: center;
+}
+
+#next-turn-button, #play-round-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+#game-over-screen {
+    text-align: center;
+    padding: 2rem;
+}
+
+#restart-button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #game-board {
+        flex-direction: column;
+    }
+
+    .player-section, .center-area {
+        width: 90%;
+        margin-bottom: 1rem;
+    }
+
+    .played-cards {
+        flex-direction: row;
+    }
+}
+
+.card {
+    position: relative;
+    width: 100px;
+    height: 150px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card.face-down {
+    background-color: #a52a2a;
+    color: transparent;
+}
+
+.card.face-down::before,
+.card.face-down::after {
+    content: '';
+}
+
+.card span {
+    font-size: 3rem;
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color: black;
+}
+
+.card::before, 
+.card::after {
+    content: attr(data-value);
+    position: absolute;
+    font-size: 1.5rem;
+}
+
+.card::before {
+    top: 5px;
+    left: 10px;
+}
+
+.card::after {
+    bottom: 5px;
+    right: 10px;
+    transform: rotate(180deg);
+}
+
+@keyframes green-flash {
+    50% {
+        box-shadow: 0 0 20px 5px rgba(76, 175, 80, 0.7);
+        border-color: #4CAF50;
+    }
+}
+
+.winner-flash {
+    animation: green-flash 0.5s ease-in-out;
+}
+
+h2[contenteditable="true"] {
+    cursor: pointer;
+    border-bottom: 2px dashed #ccc;
+    outline: none;
+}
+
+h2[contenteditable="true"]:focus {
+    border-bottom: 2px solid #333;
+}
+
+body.war-mode {
+    background-color: #ffdddd; /* Pastel red for war! */
+    transition: background-color 0.5s ease;
+}
+
+.war-mode #next-turn-button {
+    background-color: #f0e68c; /* Khaki yellow */
+    font-weight: bold;
+    border: 2px solid #b8a932;
+    transform: scale(1.05);
+} 
