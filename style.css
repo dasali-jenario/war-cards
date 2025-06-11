@@ -21,6 +21,25 @@ main {
 
 #game-mode-selection {
     text-align: center;
+    margin-bottom: 2rem;
+}
+
+#language-selection,
+#theme-selection {
+    margin-bottom: 1.5rem;
+}
+
+#language-selection label,
+#theme-selection label {
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+}
+
+#language-select,
+#theme-select {
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
 }
 
 #game-mode-selection button {
@@ -233,7 +252,7 @@ main {
 .card::after {
     content: attr(data-value);
     position: absolute;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .card::before {
@@ -248,34 +267,132 @@ main {
 }
 
 @keyframes green-flash {
-    50% {
-        box-shadow: 0 0 20px 5px rgba(76, 175, 80, 0.7);
-        border-color: #4CAF50;
-    }
+    from { background-color: lightgreen; }
+    to { background-color: transparent; }
 }
 
 .winner-flash {
-    animation: green-flash 0.5s ease-in-out;
+    animation: green-flash 0.5s 2;
 }
 
 h2[contenteditable="true"] {
     cursor: pointer;
-    border-bottom: 2px dashed #ccc;
     outline: none;
+    border-bottom: 2px dashed transparent;
+    transition: border-bottom-color 0.3s;
 }
 
 h2[contenteditable="true"]:focus {
-    border-bottom: 2px solid #333;
+    border-bottom-color: #333;
 }
 
 body.war-mode {
-    background-color: #ffdddd; /* Pastel red for war! */
-    transition: background-color 0.5s ease;
+    background-color: #ffdddd;
 }
 
 .war-mode #next-turn-button {
-    background-color: #f0e68c; /* Khaki yellow */
-    font-weight: bold;
+    background-color: #ff4136;
+    color: white;
     border: 2px solid #b8a932;
     transform: scale(1.05);
+}
+
+/* --- THEMES --- */
+
+/* Dark Theme */
+body.theme-dark {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.theme-dark #game-mode-selection button {
+    background-color: #1f1f1f;
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+
+body.theme-dark #game-mode-selection button:hover {
+    background-color: #e0e0e0;
+    color: #121212;
+}
+
+body.theme-dark .player-section {
+    background-color: #1f1f1f;
+    border-color: #444;
+}
+
+body.theme-dark .card-slot {
+    background-color: #1f1f1f;
+    border-color: #555;
+}
+
+body.theme-dark .deck, body.theme-dark .card.face-down {
+    background-color: #532e8a; /* A deep purple */
+    border-color: #c0c0c0;
+}
+
+body.theme-dark .card {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #555;
+}
+
+body.theme-dark .card.red {
+    color: #ff5555;
+}
+
+body.theme-dark .card.black {
+    color: #e0e0e0;
+}
+
+
+/* Light Theme */
+body.theme-light {
+    background-color: #e0f7fa;
+    color: #004d40;
+}
+
+body.theme-light #game-mode-selection button {
+    background-color: #ffffff;
+    border-color: #004d40;
+    color: #004d40;
+}
+
+body.theme-light #game-mode-selection button:hover {
+    background-color: #004d40;
+    color: #ffffff;
+}
+
+body.theme-light .player-section {
+    background-color: #ffffff;
+    border-color: #b2dfdb;
+}
+
+body.theme-light .card-slot {
+    background-color: #ffffff;
+    border-color: #b2dfdb;
+}
+
+body.theme-light .deck, body.theme-light .card.face-down {
+    background-color: #00796b; /* A teal color */
+    border-color: #004d40;
+}
+
+body.theme-light .card {
+    background-color: #f1f8e9;
+    color: #33691e;
+    border-color: #aed581;
+}
+
+body.theme-light .card.red {
+    color: #d32f2f;
+}
+
+body.theme-light .card.black {
+    color: #212121;
+}
+
+body.theme-light .card.face-down::before,
+body.theme-light .card.face-down::after {
+    content: '';
 } 

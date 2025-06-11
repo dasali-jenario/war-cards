@@ -3,22 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>War Card Game</title>
+    <title data-translate="title">War Card Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>War Card Game</h1>
+        <h1 data-translate="gameTitle">War Card Game</h1>
     </header>
     <main>
         <div id="game-mode-selection">
-            <h2>Select Game Mode</h2>
-            <button id="pvc-button">Player vs. Computer</button>
-            <button id="pvp-button">Player vs. Player</button>
+            <div id="language-selection">
+                <label for="language-select" data-translate="selectLanguageLabel">Language:</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="de">Deutsch (German)</option>
+                    <option value="fr">Français (French)</option>
+                    <option value="it">Italiano (Italian)</option>
+                </select>
+            </div>
+            <div id="deck-selection">
+                <label for="deck-select" data-translate="selectDeckLabel">Card Deck:</label>
+                <select id="deck-select">
+                    <option value="standard" data-translate="standardDeck">Standard Deck</option>
+                    <option value="swiss" data-translate="swissDeck">Swiss-suited Deck</option>
+                </select>
+            </div>
+            <div id="theme-selection">
+                <label for="theme-select" data-translate="selectThemeLabel">Card Theme:</label>
+                <select id="theme-select">
+                    <option value="default">Default</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                </select>
+            </div>
+            <h2 data-translate="selectGameMode">Select Game Mode</h2>
+            <button id="pvc-button" data-translate="pvcButton">Player vs. Computer</button>
+            <button id="pvp-button" data-translate="pvpButton">Player vs. Player</button>
         </div>
         <div id="game-board" class="hidden">
             <div id="player1-section" class="player-section">
-                <h2 id="player1-name">Player 1</h2>
+                <h2 id="player1-name" data-translate="player1Name">Player 1</h2>
                 <div class="card-count" id="player1-card-count">26</div>
                 <div class="deck" id="player1-deck"></div>
             </div>
@@ -28,18 +52,18 @@
                     <div class="card-slot" id="player1-card-slot"></div>
                     <div class="card-slot" id="player2-card-slot"></div>
                 </div>
-                <button id="play-round-button" class="hidden">Play Round</button>
-                <button id="next-turn-button">Next Turn</button>
+                <button id="play-round-button" class="hidden" data-translate="playRoundButton">Play Round</button>
+                <button id="next-turn-button" data-translate="nextTurnButton">Next Turn</button>
             </div>
             <div id="player2-section" class="player-section">
-                <h2 id="player2-name">Player 2</h2>
+                <h2 id="player2-name" data-translate="player2Name">Player 2</h2>
                 <div class="card-count" id="player2-card-count">26</div>
                 <div class="deck" id="player2-deck"></div>
             </div>
         </div>
         <div id="game-over-screen" class="hidden">
             <h2 id="winner-message"></h2>
-            <button id="restart-button">Restart Game</button>
+            <button id="restart-button" data-translate="restartButton">Restart Game</button>
         </div>
     </main>
     <script src="script.js"></script>

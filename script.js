@@ -5,7 +5,10 @@ class Card {
     }
 
     get color() {
-        return this.suit === '♣' || this.suit === '♠' ? 'black' : 'red';
+        if (['♥', '♦', '🌹'].includes(this.suit)) {
+            return 'red';
+        }
+        return 'black';
     }
 
     getHTML() {
@@ -50,16 +53,206 @@ class Deck {
     }
 }
 
-function createFullDeck() {
-    const SUITS = ["♠", "♣", "♥", "♦"];
-    const VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+function createDeck(deckType = 'standard') {
+    let SUITS, VALUES;
+
+    if (deckType === 'swiss') {
+        SUITS = ["🛡️", "🌹", "🔔", "🌰"];
+        VALUES = ["6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+    } else { // 'standard'
+        SUITS = ["♠", "♣", "♥", "♦"];
+        VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+    }
+
     const cards = SUITS.flatMap(suit => VALUES.map(value => new Card(suit, value)));
     const deck = new Deck(cards);
     deck.shuffle();
     return deck;
 }
 
+// --- Translations ---
+const translations = {
+    en: {
+        title: "War Card Game",
+        gameTitle: "War Card Game",
+        selectLanguageLabel: "Language:",
+        selectDeckLabel: "Card Deck:",
+        standardDeck: "Standard Deck",
+        swissDeck: "Swiss-suited Deck",
+        selectThemeLabel: "Card Theme:",
+        selectGameMode: "Select Game Mode",
+        pvcButton: "Player vs. Computer",
+        pvpButton: "Player vs. Player",
+        player1Name: "Player 1",
+        player2Name: "Player 2",
+        computerName: "Computer",
+        playRoundButton: "Play Round",
+        nextTurnButton: "Next Turn",
+        goToWarButton: "Go to War",
+        restartButton: "Restart Game",
+        roundStartMessage: "Click 'Next Turn' to start!",
+        warMessage: "War!",
+        warWinnerUndetermined: "War winner is not yet determined. Another card for war!",
+        notEnoughCardsForWar: "Not enough cards for war.",
+        roundWinnerMessage: "{playerName} wins the round!",
+        gameWinnerMessage: "{winnerName} wins the game!"
+    },
+    de: {
+        title: "Krieg Kartenspiel",
+        gameTitle: "Krieg Kartenspiel",
+        selectLanguageLabel: "Sprache:",
+        selectDeckLabel: "Kartendeck:",
+        standardDeck: "Standard-Deck",
+        swissDeck: "Schweizer Deck",
+        selectThemeLabel: "Karten-Thema:",
+        selectGameMode: "Spielmodus auswählen",
+        pvcButton: "Spieler gegen Computer",
+        pvpButton: "Spieler gegen Spieler",
+        player1Name: "Spieler 1",
+        player2Name: "Spieler 2",
+        computerName: "Computer",
+        playRoundButton: "Runde spielen",
+        nextTurnButton: "Nächster Zug",
+        goToWarButton: "In den Krieg ziehen",
+        restartButton: "Spiel neustarten",
+        roundStartMessage: "Klicken Sie auf 'Nächster Zug', um zu beginnen!",
+        warMessage: "Krieg!",
+        warWinnerUndetermined: "Kriegsgewinner steht noch nicht fest. Noch eine Karte für den Krieg!",
+        notEnoughCardsForWar: "Nicht genug Karten für den Krieg.",
+        roundWinnerMessage: "{playerName} gewinnt die Runde!",
+        gameWinnerMessage: "{winnerName} gewinnt das Spiel!"
+    },
+    fr: {
+        title: "Jeu de Cartes de la Bataille",
+        gameTitle: "Jeu de Cartes de la Bataille",
+        selectLanguageLabel: "Langue:",
+        selectDeckLabel: "Jeu de cartes:",
+        standardDeck: "Jeu Standard",
+        swissDeck: "Jeu Suisse",
+        selectThemeLabel: "Thème des cartes:",
+        selectGameMode: "Sélectionnez le mode de jeu",
+        pvcButton: "Joueur contre Ordinateur",
+        pvpButton: "Joueur contre Joueur",
+        player1Name: "Joueur 1",
+        player2Name: "Joueur 2",
+        computerName: "Ordinateur",
+        playRoundButton: "Jouer la manche",
+        nextTurnButton: "Tour suivant",
+        goToWarButton: "Aller à la bataille",
+        restartButton: "Recommencer le jeu",
+        roundStartMessage: "Cliquez sur 'Tour suivant' pour commencer!",
+        warMessage: "Bataille!",
+        warWinnerUndetermined: "Le vainqueur de la bataille n'est pas encore déterminé. Une autre carte pour la bataille!",
+        notEnoughCardsForWar: "Pas assez de cartes pour la bataille.",
+        roundWinnerMessage: "{playerName} gagne la manche!",
+        gameWinnerMessage: "{winnerName} gagne la partie!"
+    },
+    it: {
+        title: "Gioco di Carte della Guerra",
+        gameTitle: "Gioco di Carte della Guerra",
+        selectLanguageLabel: "Lingua:",
+        selectDeckLabel: "Mazzo di Carte:",
+        standardDeck: "Mazzo Standard",
+        swissDeck: "Mazzo Svizzero",
+        selectThemeLabel: "Tema Carta:",
+        selectGameMode: "Seleziona modalità di gioco",
+        pvcButton: "Giocatore contro Computer",
+        pvpButton: "Giocatore contro Giocatore",
+        player1Name: "Giocatore 1",
+        player2Name: "Giocatore 2",
+        computerName: "Computer",
+        playRoundButton: "Gioca il turno",
+        nextTurnButton: "Prossimo turno",
+        goToWarButton: "Vai in guerra",
+        restartButton: "Ricomincia il gioco",
+        roundStartMessage: "Clicca 'Prossimo turno' per iniziare!",
+        warMessage: "Guerra!",
+        warWinnerUndetermined: "Il vincitore della guerra non è ancora stato determinato. Un'altra carta per la guerra!",
+        notEnoughCardsForWar: "Non ci sono abbastanza carte per la guerra.",
+        roundWinnerMessage: "{playerName} vince il round!",
+        gameWinnerMessage: "{winnerName} vince la partita!"
+    }
+};
+
+let currentLanguage = 'en';
+
+function applyTheme(theme) {
+    document.body.classList.remove('theme-dark', 'theme-light');
+    if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+    } else if (theme === 'light') {
+        document.body.classList.add('theme-light');
+    }
+}
+
+function getTranslation(key, replacements = {}) {
+    let translation = translations[currentLanguage][key] || translations['en'][key];
+    Object.keys(replacements).forEach(placeholder => {
+        translation = translation.replace(`{${placeholder}}`, replacements[placeholder]);
+    });
+    return translation;
+}
+
+function setLanguage(lang) {
+    currentLanguage = lang;
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        const translation = getTranslation(key);
+        if (key === 'title') {
+            document.title = translation;
+        } else {
+            // Preserve child nodes for elements like names that might have other elements inside
+            const firstChild = element.firstChild;
+            if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
+                firstChild.nodeValue = translation;
+            } else {
+                element.textContent = translation;
+            }
+        }
+    });
+
+    // Update dynamic text that might be on screen
+    updateDynamicText();
+}
+
+function updateDynamicText() {
+    // This function will re-translate any dynamic text currently displayed
+    if (!gameBoard.classList.contains('hidden')) {
+        if (player2Name.textContent === translations['en'].computerName || 
+            player2Name.textContent === translations['de'].computerName ||
+            player2Name.textContent === translations['fr'].computerName ||
+            player2Name.textContent === translations['it'].computerName) 
+        {
+            if (gameMode === 'pvc') {
+                player2Name.textContent = getTranslation('computerName');
+            }
+        }
+        
+        const currentMessage = messageArea.textContent;
+        if (currentMessage.includes("wins the round") || currentMessage.includes("gewinnt die Runde") || currentMessage.includes("gagne la manche") || currentMessage.includes("vince il round")) {
+            const playerName = currentMessage.split(" ")[0];
+            messageArea.textContent = getTranslation('roundWinnerMessage', { playerName: playerName });
+        } else if (messageArea.dataset.key) { // Use a data attribute to remember the message key
+            messageArea.textContent = getTranslation(messageArea.dataset.key);
+        }
+        
+        if (nextTurnButton.dataset.key) {
+            nextTurnButton.textContent = getTranslation(nextTurnButton.dataset.key);
+        }
+    }
+
+    if (!gameOverScreen.classList.contains('hidden')) {
+        const winner = winnerMessage.dataset.winner;
+        if (winner) {
+            winnerMessage.textContent = getTranslation('gameWinnerMessage', { winnerName: winner });
+        }
+    }
+}
+
 // --- DOM Elements ---
+const languageSelect = document.getElementById('language-select');
+const deckSelect = document.getElementById('deck-select');
+const themeSelect = document.getElementById('theme-select');
 const gameModeSelection = document.getElementById('game-mode-selection');
 const pvcButton = document.getElementById('pvc-button');
 const pvpButton = document.getElementById('pvp-button');
@@ -78,15 +271,36 @@ const gameOverScreen = document.getElementById('game-over-screen');
 const winnerMessage = document.getElementById('winner-message');
 const restartButton = document.getElementById('restart-button');
 
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('language') || 'en';
+    languageSelect.value = savedLang;
+    setLanguage(savedLang);
+
+    const savedTheme = localStorage.getItem('theme') || 'default';
+    themeSelect.value = savedTheme;
+    applyTheme(savedTheme);
+});
+
+languageSelect.addEventListener('change', (e) => {
+    setLanguage(e.target.value);
+    localStorage.setItem('language', e.target.value);
+});
+
+themeSelect.addEventListener('change', (e) => {
+    const selectedTheme = e.target.value;
+    applyTheme(selectedTheme);
+    localStorage.setItem('theme', selectedTheme);
+});
+
 player1Name.addEventListener('blur', () => {
     if (!player1Name.textContent.trim()) {
-        player1Name.textContent = "Player 1";
+        player1Name.textContent = getTranslation('player1Name');
     }
 });
 
 player2Name.addEventListener('blur', () => {
     if (gameMode === 'pvp' && !player2Name.textContent.trim()) {
-        player2Name.textContent = "Player 2";
+        player2Name.textContent = getTranslation('player2Name');
     }
 });
 
@@ -107,6 +321,7 @@ pvpButton.addEventListener('click', () => startGame('pvp'));
 restartButton.addEventListener('click', () => {
     gameOverScreen.classList.add('hidden');
     gameModeSelection.classList.remove('hidden');
+    setLanguage(currentLanguage); // Re-apply translations to main menu
 });
 
 function startGame(mode) {
@@ -118,18 +333,19 @@ function startGame(mode) {
     player1CardSlot.classList.remove('war-pile');
     player2CardSlot.classList.remove('war-pile');
 
-    player1Name.textContent = "Player 1";
+    player1Name.textContent = getTranslation('player1Name');
     player1Name.setAttribute('contenteditable', 'true');
 
     if (gameMode === 'pvc') {
-        player2Name.textContent = "Computer";
+        player2Name.textContent = getTranslation('computerName');
         player2Name.removeAttribute('contenteditable');
     } else {
-        player2Name.textContent = "Player 2";
+        player2Name.textContent = getTranslation('player2Name');
         player2Name.setAttribute('contenteditable', 'true');
     }
 
-    const deck = createFullDeck();
+    const deckType = deckSelect.value;
+    const deck = createDeck(deckType);
     const midPoint = Math.ceil(deck.numberOfCards / 2);
     player1Deck = new Deck(deck.cards.slice(0, midPoint));
     player2Deck = new Deck(deck.cards.slice(midPoint, deck.numberOfCards));
@@ -177,10 +393,14 @@ function displayWarCards() {
 function resetRound() {
     inWar = false;
     nextTurnButton.disabled = false;
-    nextTurnButton.textContent = "Next Turn";
+    nextTurnButton.textContent = getTranslation('nextTurnButton');
+    nextTurnButton.dataset.key = 'nextTurnButton';
     player1CardSlot.innerHTML = '';
     player2CardSlot.innerHTML = '';
-    messageArea.textContent = "Click 'Next Turn' to start!";
+    player1CardSlot.classList.remove('war-pile');
+    player2CardSlot.classList.remove('war-pile');
+    messageArea.textContent = getTranslation('roundStartMessage');
+    messageArea.dataset.key = 'roundStartMessage';
 }
 
 function animateCard(cardSlot, cardElement, offset = 0) {
@@ -196,16 +416,12 @@ nextTurnButton.addEventListener('click', playRound);
 function playRound() {
     nextTurnButton.disabled = true; // Disable button to prevent race conditions
 
-    // Clear board from previous round's results
-    player1CardSlot.classList.remove('war-pile');
-    player2CardSlot.classList.remove('war-pile');
-    player1CardSlot.innerHTML = '';
-    player2CardSlot.innerHTML = '';
-
     if (inWar) {
         handleWar();
         return;
     }
+
+    resetRound();
 
     if (checkGameOver()) return;
 
@@ -236,100 +452,70 @@ function compareCards(card1, card2) {
     const value2 = CARD_VALUE_MAP[card2.value];
 
     if (value1 > value2) {
-        handleRoundWinner(player1Deck, player1Section, "Player 1");
+        handleRoundWinner(player1Deck, player1Section, player1Name.textContent);
     } else if (value2 > value1) {
         handleRoundWinner(player2Deck, player2Section, player2Name.textContent);
     } else {
-        messageArea.textContent = "War!";
+        messageArea.textContent = getTranslation('warMessage');
+        messageArea.dataset.key = 'warMessage';
         inWar = true;
         document.body.classList.add('war-mode');
-        nextTurnButton.textContent = "Go to War";
+        nextTurnButton.textContent = getTranslation('goToWarButton');
+        nextTurnButton.dataset.key = 'goToWarButton';
         nextTurnButton.disabled = false; // Re-enable button for user to click
     }
 }
 
-function handleRoundWinner(winnerDeck, winnerSection, winnerName) {
-    const wasWar = inWar;
+function handleRoundWinner(winningDeck, winnerSection, winnerName) {
+    messageArea.textContent = getTranslation('roundWinnerMessage', { playerName: winnerName });
+    messageArea.dataset.key = ''; // Clear key as this is a dynamic message
+    winningDeck.pushAll(roundCards);
+    roundCards = [];
     flashWinner(winnerSection);
 
-    if (wasWar) {
-        messageArea.textContent = `${winnerName} wins the war and takes all ${roundCards.length} cards!`;
-        displayWarCards();
-        setTimeout(() => {
-            winnerDeck.pushAll(roundCards);
-            roundCards = [];
-            inWar = false;
-            document.body.classList.remove('war-mode');
-            nextTurnButton.disabled = false;
-            nextTurnButton.textContent = "Next Turn";
-        }, 3000); // 3-second delay to view spoils
-    } else {
-        messageArea.textContent = `${winnerName} wins the round!`;
-        winnerDeck.pushAll(roundCards);
-        roundCards = [];
-        nextTurnButton.disabled = false;
-    }
+    // Short delay to allow player to see result before next turn is enabled
+    setTimeout(() => {
+        if (!checkGameOver()) {
+            if (inWar) {
+                resetRound(); // Explicitly reset after a war
+                document.body.classList.remove('war-mode');
+            }
+             nextTurnButton.disabled = false;
+             nextTurnButton.textContent = getTranslation('nextTurnButton');
+             nextTurnButton.dataset.key = 'nextTurnButton';
+        }
+    }, 1000);
 }
 
 function handleWar() {
-    nextTurnButton.disabled = true;
-    player1CardSlot.innerHTML = '';
-    player2CardSlot.innerHTML = '';
-
-    const cardsToLay = Math.min(3, player1Deck.numberOfCards -1, player2Deck.numberOfCards - 1);
-
-    for (let i = 0; i < cardsToLay; i++) {
-        setTimeout(() => {
-            const p1c = player1Deck.pop();
-            const p2c = player2Deck.pop();
-            if(p1c) roundCards.push(p1c);
-            if(p2c) roundCards.push(p2c);
-            
-            const p1CardElem = p1c.getHTML();
-            p1CardElem.classList.add('face-down');
-            animateCard(player1CardSlot, p1CardElem, i * 10);
-            
-            const p2CardElem = p2c.getHTML();
-            p2CardElem.classList.add('face-down');
-            animateCard(player2CardSlot, p2CardElem, i * 10);
-
-            updateCardCounts();
-        }, i * 400);
+    if (player1Deck.numberOfCards < 4 || player2Deck.numberOfCards < 4) {
+        messageArea.textContent = getTranslation('notEnoughCardsForWar');
+        messageArea.dataset.key = 'notEnoughCardsForWar';
+        // Simplified end-game: whoever has more cards wins.
+        const winner = player1Deck.numberOfCards > player2Deck.numberOfCards ? player1Name.textContent : player2Name.textContent;
+        endGame(winner);
+        return;
     }
 
-    if (checkGameOver()) return;
+    // War cards (3 face down, 1 face up)
+    const p1WarCards = [player1Deck.pop(), player1Deck.pop(), player1Deck.pop()];
+    const p1FaceUpCard = player1Deck.pop();
+    const p2WarCards = [player2Deck.pop(), player2Deck.pop(), player2Deck.pop()];
+    const p2FaceUpCard = player2Deck.pop();
 
-    setTimeout(() => {
-        const warCard1 = player1Deck.pop();
-        const warCard2 = player2Deck.pop();
+    roundCards.push(...p1WarCards, p1FaceUpCard, ...p2WarCards, p2FaceUpCard);
+    
+    // Display all cards in the pot
+    displayWarCards();
+    
+    // Animate the face-up cards
+    const player1CardElement = p1FaceUpCard.getHTML();
+    const player2CardElement = p2FaceUpCard.getHTML();
+    animateCard(player1CardSlot, player1CardElement, (roundCards.length / 2 - 1) * 15);
+    animateCard(player2CardSlot, player2CardElement, (roundCards.length / 2 - 1) * 15);
 
-        if (!warCard1 || !warCard2) {
-            if (!warCard1 && warCard2) roundCards.push(warCard2);
-            if (!warCard2 && warCard1) roundCards.push(warCard1);
-
-            if (!warCard1) player2Deck.pushAll(roundCards);
-            if (!warCard2) player1Deck.pushAll(roundCards);
-            checkGameOver();
-            return;
-        }
-
-        roundCards.push(warCard1, warCard2);
-
-        const warCard1Elem = warCard1.getHTML();
-        animateCard(player1CardSlot, warCard1Elem, cardsToLay * 10);
-
-        const warCard2Elem = warCard2.getHTML();
-        animateCard(player2CardSlot, warCard2Elem, cardsToLay * 10);
-
-        updateCardCounts();
-        compareCards(warCard1, warCard2);
-        nextTurnButton.disabled = false;
-        if(inWar) {
-            nextTurnButton.textContent = "Go to War";
-        } else {
-            nextTurnButton.textContent = "Next Turn";
-        }
-    }, cardsToLay * 400 + 200);
+    updateCardCounts();
+    compareCards(p1FaceUpCard, p2FaceUpCard);
 }
 
 function flashWinner(playerSection) {
@@ -343,17 +529,17 @@ function checkGameOver() {
     if (player1Deck.numberOfCards === 0) {
         endGame(player2Name.textContent);
         return true;
-    }
-    if (player2Deck.numberOfCards === 0) {
-        endGame("Player 1");
+    } else if (player2Deck.numberOfCards === 0) {
+        endGame(player1Name.textContent);
         return true;
     }
     return false;
 }
 
 function endGame(winner) {
-    gameBoard.classList.add('hidden');
     gameOverScreen.classList.remove('hidden');
-    winnerMessage.textContent = `${winner} Wins the Game!`;
+    gameBoard.classList.add('hidden');
     nextTurnButton.classList.add('hidden');
+    winnerMessage.textContent = getTranslation('gameWinnerMessage', { winnerName: winner });
+    winnerMessage.dataset.winner = winner;
 } 
