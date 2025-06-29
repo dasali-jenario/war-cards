@@ -65,13 +65,15 @@ main {
 
 #game-board {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1rem;
     width: 100%;
 }
 
 .player-section {
-    width: 30%;
+    flex: 1 1 250px;
     text-align: center;
     padding: 1rem;
     border: 2px solid #ccc;
@@ -101,7 +103,7 @@ main {
 }
 
 .center-area {
-    width: 35%;
+    flex: 2 1 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -205,8 +207,9 @@ main {
         flex-direction: column;
     }
 
-    .player-section, .center-area {
-        width: 90%;
+    .player-section,
+    .center-area {
+        flex-basis: 100%;
         margin-bottom: 1rem;
     }
 
@@ -239,6 +242,17 @@ main {
     }
 }
 
+
+@media (min-width: 601px) and (max-width: 900px) {
+    #game-board {
+        justify-content: center;
+    }
+
+    .player-section,
+    .center-area {
+        flex: 1 1 45%;
+    }
+}
 
 .card {
     position: relative;
