@@ -395,4 +395,4 @@ body.theme-light .card.black {
 body.theme-light .card.face-down::before,
 body.theme-light .card.face-down::after {
     content: '';
-} 
+}

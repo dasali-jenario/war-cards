@@ -542,4 +542,4 @@ function endGame(winner) {
     nextTurnButton.classList.add('hidden');
     winnerMessage.textContent = getTranslation('gameWinnerMessage', { winnerName: winner });
     winnerMessage.dataset.winner = winner;
-} 
+}
