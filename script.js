@@ -243,59 +243,82 @@ function updateDynamicText() {
 }
 
 // --- DOM Elements ---
-const languageSelect = document.getElementById('language-select');
-const deckSelect = document.getElementById('deck-select');
-const themeSelect = document.getElementById('theme-select');
-const gameModeSelection = document.getElementById('game-mode-selection');
-const pvcButton = document.getElementById('pvc-button');
-const pvpButton = document.getElementById('pvp-button');
-const gameBoard = document.getElementById('game-board');
-const player1Name = document.getElementById('player1-name');
-const player2Name = document.getElementById('player2-name');
-const player1Section = document.getElementById('player1-section');
-const player2Section = document.getElementById('player2-section');
-const player1CardCount = document.getElementById('player1-card-count');
-const player2CardCount = document.getElementById('player2-card-count');
-const messageArea = document.getElementById('message-area');
-const player1CardSlot = document.getElementById('player1-card-slot');
-const player2CardSlot = document.getElementById('player2-card-slot');
-const nextTurnButton = document.getElementById('next-turn-button');
-const gameOverScreen = document.getElementById('game-over-screen');
-const winnerMessage = document.getElementById('winner-message');
-const restartButton = document.getElementById('restart-button');
+let languageSelect,
+    deckSelect,
+    themeSelect,
+    gameModeSelection,
+    pvcButton,
+    pvpButton,
+    gameBoard,
+    player1Name,
+    player2Name,
+    player1Section,
+    player2Section,
+    player1CardCount,
+    player2CardCount,
+    messageArea,
+    player1CardSlot,
+    player2CardSlot,
+    nextTurnButton,
+    gameOverScreen,
+    winnerMessage,
+    restartButton;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('language') || 'en';
-    languageSelect.value = savedLang;
-    setLanguage(savedLang);
+if (typeof document !== 'undefined') {
+    languageSelect = document.getElementById('language-select');
+    deckSelect = document.getElementById('deck-select');
+    themeSelect = document.getElementById('theme-select');
+    gameModeSelection = document.getElementById('game-mode-selection');
+    pvcButton = document.getElementById('pvc-button');
+    pvpButton = document.getElementById('pvp-button');
+    gameBoard = document.getElementById('game-board');
+    player1Name = document.getElementById('player1-name');
+    player2Name = document.getElementById('player2-name');
+    player1Section = document.getElementById('player1-section');
+    player2Section = document.getElementById('player2-section');
+    player1CardCount = document.getElementById('player1-card-count');
+    player2CardCount = document.getElementById('player2-card-count');
+    messageArea = document.getElementById('message-area');
+    player1CardSlot = document.getElementById('player1-card-slot');
+    player2CardSlot = document.getElementById('player2-card-slot');
+    nextTurnButton = document.getElementById('next-turn-button');
+    gameOverScreen = document.getElementById('game-over-screen');
+    winnerMessage = document.getElementById('winner-message');
+    restartButton = document.getElementById('restart-button');
 
-    const savedTheme = localStorage.getItem('theme') || 'default';
-    themeSelect.value = savedTheme;
-    applyTheme(savedTheme);
-});
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('language') || 'en';
+        languageSelect.value = savedLang;
+        setLanguage(savedLang);
 
-languageSelect.addEventListener('change', (e) => {
-    setLanguage(e.target.value);
-    localStorage.setItem('language', e.target.value);
-});
+        const savedTheme = localStorage.getItem('theme') || 'default';
+        themeSelect.value = savedTheme;
+        applyTheme(savedTheme);
+    });
 
-themeSelect.addEventListener('change', (e) => {
-    const selectedTheme = e.target.value;
-    applyTheme(selectedTheme);
-    localStorage.setItem('theme', selectedTheme);
-});
+    languageSelect.addEventListener('change', (e) => {
+        setLanguage(e.target.value);
+        localStorage.setItem('language', e.target.value);
+    });
 
-player1Name.addEventListener('blur', () => {
-    if (!player1Name.textContent.trim()) {
-        player1Name.textContent = getTranslation('player1Name');
-    }
-});
+    themeSelect.addEventListener('change', (e) => {
+        const selectedTheme = e.target.value;
+        applyTheme(selectedTheme);
+        localStorage.setItem('theme', selectedTheme);
+    });
 
-player2Name.addEventListener('blur', () => {
-    if (gameMode === 'pvp' && !player2Name.textContent.trim()) {
-        player2Name.textContent = getTranslation('player2Name');
-    }
-});
+    player1Name.addEventListener('blur', () => {
+        if (!player1Name.textContent.trim()) {
+            player1Name.textContent = getTranslation('player1Name');
+        }
+    });
+
+    player2Name.addEventListener('blur', () => {
+        if (gameMode === 'pvp' && !player2Name.textContent.trim()) {
+            player2Name.textContent = getTranslation('player2Name');
+        }
+    });
+}
 
 // --- Game State ---
 let gameMode = null; // 'pvc' or 'pvp'
@@ -309,13 +332,15 @@ const CARD_VALUE_MAP = {
 };
 
 // --- Game Setup ---
-pvcButton.addEventListener('click', () => startGame('pvc'));
-pvpButton.addEventListener('click', () => startGame('pvp'));
-restartButton.addEventListener('click', () => {
-    gameOverScreen.classList.add('hidden');
-    gameModeSelection.classList.remove('hidden');
-    setLanguage(currentLanguage); // Re-apply translations to main menu
-});
+if (typeof document !== 'undefined') {
+    pvcButton.addEventListener('click', () => startGame('pvc'));
+    pvpButton.addEventListener('click', () => startGame('pvp'));
+    restartButton.addEventListener('click', () => {
+        gameOverScreen.classList.add('hidden');
+        gameModeSelection.classList.remove('hidden');
+        setLanguage(currentLanguage); // Re-apply translations to main menu
+    });
+}
 
 function startGame(mode) {
     gameMode = mode;
@@ -407,7 +432,9 @@ function animateCard(cardSlot, cardElement, offset = 0) {
 
 // --- Game Logic ---
 
-nextTurnButton.addEventListener('click', playRound);
+if (typeof document !== 'undefined') {
+    nextTurnButton.addEventListener('click', playRound);
+}
 
 function playRound() {
     nextTurnButton.disabled = true; // Disable button to prevent race conditions
@@ -541,4 +568,9 @@ function endGame(winner) {
     nextTurnButton.classList.add('hidden');
     winnerMessage.textContent = getTranslation('gameWinnerMessage', { winnerName: winner });
     winnerMessage.dataset.winner = winner;
+}
+
+// Export classes for testing in Node environments
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = { Card, Deck, createDeck, CARD_VALUE_MAP };
 }

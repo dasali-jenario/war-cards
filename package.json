@@ -1,0 +1,8 @@
+{
+  "name": "war-cards",
+  "version": "1.0.0",
+  "description": "War card game",
+  "scripts": {
+    "test": "node --test"
+  }
+}
