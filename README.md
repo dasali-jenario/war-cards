@@ -29,3 +29,6 @@ User preferences such as the selected language and theme are persisted in `local
 
 No external dependencies are required. Simply open the HTML file to play.
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
