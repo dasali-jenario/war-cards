@@ -1,3 +1,8 @@
+:root {
+    --card-width: 100px;
+    --card-height: 150px;
+}
+
 body {
     font-family: sans-serif;
     background-color: #f0f0f0;
@@ -76,8 +81,8 @@ main {
 }
 
 .deck {
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 3px solid #333;
     border-radius: 10px;
     margin: 1rem auto;
@@ -109,8 +114,8 @@ main {
 }
 
 .card-slot {
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 2px dashed #ccc;
     border-radius: 10px;
     margin: 0 2rem;
@@ -212,8 +217,8 @@ main {
 
 .card {
     position: relative;
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 1px solid #000;
     border-radius: 10px;
     background-color: white;
