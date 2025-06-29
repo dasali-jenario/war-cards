@@ -216,26 +216,18 @@ function setLanguage(lang) {
 }
 
 function updateDynamicText() {
-    // This function will re-translate any dynamic text currently displayed
+    // This function re-renders dynamic text based on stored data attributes
     if (!gameBoard.classList.contains('hidden')) {
-        if (player2Name.textContent === translations['en'].computerName || 
-            player2Name.textContent === translations['de'].computerName ||
-            player2Name.textContent === translations['fr'].computerName ||
-            player2Name.textContent === translations['it'].computerName) 
-        {
-            if (gameMode === 'pvc') {
-                player2Name.textContent = getTranslation('computerName');
-            }
+        // Update the computer name if necessary
+        if (gameMode === 'pvc' && player2Name.dataset.key === 'computerName') {
+            player2Name.textContent = getTranslation('computerName');
         }
-        
-        const currentMessage = messageArea.textContent;
-        if (currentMessage.includes("wins the round") || currentMessage.includes("gewinnt die Runde") || currentMessage.includes("gagne la manche") || currentMessage.includes("vince il round")) {
-            const playerName = currentMessage.split(" ")[0];
-            messageArea.textContent = getTranslation('roundWinnerMessage', { playerName: playerName });
-        } else if (messageArea.dataset.key) { // Use a data attribute to remember the message key
-            messageArea.textContent = getTranslation(messageArea.dataset.key);
+
+        if (messageArea.dataset.key) {
+            const { key, ...replacements } = messageArea.dataset;
+            messageArea.textContent = getTranslation(key, replacements);
         }
-        
+
         if (nextTurnButton.dataset.key) {
             nextTurnButton.textContent = getTranslation(nextTurnButton.dataset.key);
         }
@@ -338,9 +330,11 @@ function startGame(mode) {
 
     if (gameMode === 'pvc') {
         player2Name.textContent = getTranslation('computerName');
+        player2Name.dataset.key = 'computerName';
         player2Name.removeAttribute('contenteditable');
     } else {
         player2Name.textContent = getTranslation('player2Name');
+        delete player2Name.dataset.key;
         player2Name.setAttribute('contenteditable', 'true');
     }
 
@@ -401,6 +395,7 @@ function resetRound() {
     player2CardSlot.classList.remove('war-pile');
     messageArea.textContent = getTranslation('roundStartMessage');
     messageArea.dataset.key = 'roundStartMessage';
+    delete messageArea.dataset.playerName;
 }
 
 function animateCard(cardSlot, cardElement, offset = 0) {
@@ -458,6 +453,7 @@ function compareCards(card1, card2) {
     } else {
         messageArea.textContent = getTranslation('warMessage');
         messageArea.dataset.key = 'warMessage';
+        delete messageArea.dataset.playerName;
         inWar = true;
         document.body.classList.add('war-mode');
         nextTurnButton.textContent = getTranslation('goToWarButton');
@@ -468,7 +464,8 @@ function compareCards(card1, card2) {
 
 function handleRoundWinner(winningDeck, winnerSection, winnerName) {
     messageArea.textContent = getTranslation('roundWinnerMessage', { playerName: winnerName });
-    messageArea.dataset.key = ''; // Clear key as this is a dynamic message
+    messageArea.dataset.key = 'roundWinnerMessage';
+    messageArea.dataset.playerName = winnerName;
     winningDeck.pushAll(roundCards);
     roundCards = [];
     flashWinner(winnerSection);
@@ -491,6 +488,7 @@ function handleWar() {
     if (player1Deck.numberOfCards < 4 || player2Deck.numberOfCards < 4) {
         messageArea.textContent = getTranslation('notEnoughCardsForWar');
         messageArea.dataset.key = 'notEnoughCardsForWar';
+        delete messageArea.dataset.playerName;
         // Simplified end-game: whoever has more cards wins.
         const winner = player1Deck.numberOfCards > player2Deck.numberOfCards ? player1Name.textContent : player2Name.textContent;
         endGame(winner);
