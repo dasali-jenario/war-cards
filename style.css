@@ -1,3 +1,8 @@
+:root {
+    --card-width: 100px;
+    --card-height: 150px;
+}
+
 body {
     font-family: sans-serif;
     background-color: #f0f0f0;
@@ -60,13 +65,15 @@ main {
 
 #game-board {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1rem;
     width: 100%;
 }
 
 .player-section {
-    width: 30%;
+    flex: 1 1 250px;
     text-align: center;
     padding: 1rem;
     border: 2px solid #ccc;
@@ -76,8 +83,8 @@ main {
 }
 
 .deck {
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 3px solid #333;
     border-radius: 10px;
     margin: 1rem auto;
@@ -96,7 +103,7 @@ main {
 }
 
 .center-area {
-    width: 35%;
+    flex: 2 1 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,8 +116,8 @@ main {
 }
 
 .card-slot {
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 2px dashed #ccc;
     border-radius: 10px;
     margin: 0 2rem;
@@ -200,8 +207,9 @@ main {
         flex-direction: column;
     }
 
-    .player-section, .center-area {
-        width: 90%;
+    .player-section,
+    .center-area {
+        flex-basis: 100%;
         margin-bottom: 1rem;
     }
 
@@ -209,11 +217,47 @@ main {
         flex-direction: row;
     }
 }
+@media (max-width: 480px) {
+    :root {
+        --card-width: 70px;
+        --card-height: 105px;
+    }
+
+    .card-slot {
+        margin: 0 1rem;
+    }
+    .played-cards {
+        margin: 0.5rem 0;
+    }
+}
+
+@media (min-width: 900px) {
+    :root {
+        --card-width: 120px;
+        --card-height: 180px;
+    }
+
+    .player-section {
+        width: 32%;
+    }
+}
+
+
+@media (min-width: 601px) and (max-width: 900px) {
+    #game-board {
+        justify-content: center;
+    }
+
+    .player-section,
+    .center-area {
+        flex: 1 1 45%;
+    }
+}
 
 .card {
     position: relative;
-    width: 100px;
-    height: 150px;
+    width: var(--card-width);
+    height: var(--card-height);
     border: 1px solid #000;
     border-radius: 10px;
     background-color: white;
