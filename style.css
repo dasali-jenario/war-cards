@@ -214,6 +214,31 @@ main {
         flex-direction: row;
     }
 }
+@media (max-width: 480px) {
+    :root {
+        --card-width: 70px;
+        --card-height: 105px;
+    }
+
+    .card-slot {
+        margin: 0 1rem;
+    }
+    .played-cards {
+        margin: 0.5rem 0;
+    }
+}
+
+@media (min-width: 900px) {
+    :root {
+        --card-width: 120px;
+        --card-height: 180px;
+    }
+
+    .player-section {
+        width: 32%;
+    }
+}
+
 
 .card {
     position: relative;
