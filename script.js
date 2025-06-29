@@ -195,6 +195,7 @@ function getTranslation(key, replacements = {}) {
 
 function setLanguage(lang) {
     currentLanguage = lang;
+    document.documentElement.lang = lang;
     document.querySelectorAll('[data-translate]').forEach(element => {
         const key = element.getAttribute('data-translate');
         const translation = getTranslation(key);
