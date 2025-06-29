@@ -27,6 +27,28 @@ User preferences such as the selected language and theme are persisted in `local
 - `script.js` – game logic, translations and DOM interactions.
 - `README.md` – project overview and instructions.
 
+## Responsive Layout
+
+The `style.css` file uses CSS media queries to adjust the layout for different
+screen widths. On small screens below **600&nbsp;px** the board stacks
+vertically, while larger screens display the three main sections side by side.
+Additional breakpoints at **900&nbsp;px** and **1200&nbsp;px** further refine the
+spacing so the board scales well up to desktop monitors.
+
+Card dimensions are controlled through CSS custom properties so the base size can
+be overridden if needed:
+
+```css
+:root {
+  --card-width: 100px;
+  --card-height: 150px;
+}
+```
+
+Updating these variables resizes both the deck and individual cards without
+changing any HTML. This makes it easy to adapt the game for very small or very
+large displays.
+
 No external dependencies are required. Simply open the HTML file to play.
 
 ## License
